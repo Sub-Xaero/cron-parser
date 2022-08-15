@@ -1,5 +1,7 @@
 class TimeExpression
 
+  attr_reader :expressions
+
   def initialize(expression)
     @expressions = expression.split(",")
   end
