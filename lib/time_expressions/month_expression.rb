@@ -1,4 +1,3 @@
-
 require_relative 'time_expression'
 
 class MonthExpression < TimeExpression
@@ -28,21 +27,18 @@ class MonthExpression < TimeExpression
 
   def parse_expression(expression)
     case expression
-    when '*'
+    when '*' # Wildcard
       RANGE.to_a
-    when /^\*\/\d+$/
+    when /^\*\/\d+$/ # Interval
       interval = expression.gsub(/\*\//, '').to_i
       raise ArgumentError, "Invalid interval: #{interval}" if interval <= 0
 
       RANGE.step(interval).to_a
-    when /^\d+-\d+$/
-      from, to = expression.split('-').map(&:to_i)
-      (from..to).to_a
-    when /^(#{month_regex_str})$/i
+    when /^(#{month_regex_str})$/i # Single month word i.e. "JAN"
       month = MONTHS[expression.upcase]
       raise ArgumentError, "Invalid month: #{expression}" if month.nil?
       [month]
-    when /^(#{month_regex_str})\-(#{month_regex_str})$/i
+    when /^(#{month_regex_str})\-(#{month_regex_str})$/i # Range of month words i.e. "JAN-FEB"
       from_month, to_month = expression.split('-')
       from_month_index = MONTHS[from_month]
       raise ArgumentError, "Invalid month: #{from_month}" if from_month_index.nil?
@@ -51,13 +47,13 @@ class MonthExpression < TimeExpression
       raise ArgumentError, "Invalid month: #{to_month}" if to_month_index.nil?
 
       (from_month_index..to_month_index).to_a
-    when /^\d+$/
-      [expression.to_i]
     else
-      raise ArgumentError, "Invalid or unrecognised expression: #{expression}"
+      super
     end
   end
 
+  # @return [String] A string of all the month words separated by a pipe, for use in a Regex capture group.
+  # @example "JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC"
   def month_regex_str
     MONTHS.keys.join('|')
   end

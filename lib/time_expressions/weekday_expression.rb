@@ -22,21 +22,18 @@ class WeekdayExpression < TimeExpression
 
   def parse_expression(expression)
     case expression
-    when '*'
+    when '*'  # Wildcard
       RANGE.to_a
-    when /^\*\/\d+$/
+    when /^\*\/\d+$/ # Interval
       interval = expression.gsub(/\*\//, '').to_i
       raise ArgumentError, "Invalid interval: #{interval}" if interval <= 0
 
       RANGE.step(interval).to_a
-    when /^\d+-\d+$/
-      from, to = expression.split('-').map(&:to_i)
-      (from..to).to_a
-    when /^(#{weekday_regex_str})$/
+    when /^(#{weekday_regex_str})$/ # Single weekday word (e.g. 'SUN')
       day = DAYS[expression.strip.upcase]
       raise ArgumentError, "Invalid weekday: #{expression}" if day.nil?
       [day]
-    when /^(#{weekday_regex_str})-(#{weekday_regex_str})$/
+    when /^(#{weekday_regex_str})-(#{weekday_regex_str})$/ # Range of weekday words (e.g. MON-FRI)
       from_day, to_day = expression.split('-')
       from_day_index = DAYS[from_day]
       raise ArgumentError, "Invalid day: #{from_day}" if from_day_index.nil?
@@ -45,13 +42,13 @@ class WeekdayExpression < TimeExpression
       raise ArgumentError, "Invalid day: #{to_day}" if to_day_index.nil?
 
       (from_day_index..to_day_index).to_a
-    when /^\d+$/
-      [expression.to_i]
     else
-      raise ArgumentError, "Invalid or unrecognised expression: #{expression}"
+      super
     end
   end
 
+  # @return [String] A string of all the weekday words separated by a pipe, for use in a Regex capture group.
+  # @example "SUN|MON|TUE|WED|THU|FRI|SAT"
   def weekday_regex_str
     DAYS.keys.join('|')
   end

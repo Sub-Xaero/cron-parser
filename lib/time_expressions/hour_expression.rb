@@ -1,4 +1,3 @@
-
 require_relative 'time_expression'
 
 class HourExpression < TimeExpression
@@ -13,20 +12,15 @@ class HourExpression < TimeExpression
 
   def parse_expression(expression)
     case expression
-    when '*'
+    when '*' # Wildcard
       RANGE.to_a
-    when /^\*\/\d+$/
+    when /^\*\/\d+$/ # Interval
       interval = expression.gsub(/\*\//, '').to_i
       raise ArgumentError, "Invalid interval: #{interval}" if interval <= 0
 
       RANGE.step(interval).to_a
-    when /^\d+-\d+$/
-      from, to = expression.split('-').map(&:to_i)
-      (from..to).to_a
-    when /^\d+$/
-      [expression.to_i]
     else
-      raise ArgumentError, "Invalid or unrecognised expression: #{expression}"
+      super
     end
   end
 

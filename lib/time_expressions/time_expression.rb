@@ -13,7 +13,17 @@ class TimeExpression
   private
 
   def parse_expression(expression)
-    raise NotImplementedError, "You must define #parse_expression in #{self.class}"
+    case expression
+    when /^\d+$/
+      # Single number
+      [expression.to_i]
+    when /^\d+-\d+$/
+      # Number range
+      from, to = expression.split('-').map(&:to_i)
+      (from..to).to_a
+    else
+      raise ArgumentError, "Invalid or unrecognised expression: #{expression}"
+    end
   end
 
   def clamp_array(array, min, max)
