@@ -50,11 +50,7 @@ class MonthExpression < TimeExpression
       to_month_index = MONTHS[to_month]
       raise ArgumentError, "Invalid month: #{to_month}" if to_month_index.nil?
 
-      (from_day_index..to_day_index).to_a
-    when Regexp.new("^#{month_regex_str}(,#{month_regex_str})*$")
-      expression.split(',').map { |month| MONTHS[month] }
-    when /^[0-9](,[0-9])*$/
-      expression.split(',').map(&:to_i)
+      (from_month_index..to_month_index).to_a
     when /^\d+$/
       [expression.to_i]
     else

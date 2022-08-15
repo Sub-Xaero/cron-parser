@@ -45,10 +45,6 @@ class WeekdayExpression < TimeExpression
       raise ArgumentError, "Invalid day: #{to_day}" if to_day_index.nil?
 
       (from_day_index..to_day_index).to_a
-    when Regexp.new("^#{weekday_regex_str}(,#{weekday_regex_str})*$")
-      expression.split(',').map { |month| DAYS[month] }
-    when /^[0-9](,[0-9])*$/
-      expression.split(',').map(&:to_i)
     when /^\d+$/
       [expression.to_i]
     else

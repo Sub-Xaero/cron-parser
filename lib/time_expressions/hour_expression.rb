@@ -23,8 +23,6 @@ class HourExpression < TimeExpression
     when /^\d+-\d+$/
       from, to = expression.split('-').map(&:to_i)
       (from..to).to_a
-    when /^[0-9](,[0-9])*$/
-      expression.split(',').map(&:to_i)
     when /^\d+$/
       [expression.to_i]
     else
