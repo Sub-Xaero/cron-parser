@@ -7,7 +7,7 @@ class DayExpressionTest < Minitest::Test
   def test_can_handle_wildcard
     expression = DayExpression.new('*')
     assert_equal(
-      (1..31).to_a,
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
       expression.occurrences
     )
   end
@@ -48,6 +48,14 @@ class DayExpressionTest < Minitest::Test
     expression = DayExpression.new('1,2,3,9-11')
     assert_equal(
       [1, 2, 3, 9, 10, 11],
+      expression.occurrences
+    )
+  end
+
+  def test_rejects_invalid_days
+    expression = DayExpression.new('1,32')
+    assert_equal(
+      [1],
       expression.occurrences
     )
   end
