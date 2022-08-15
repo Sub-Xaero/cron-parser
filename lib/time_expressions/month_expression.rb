@@ -39,7 +39,9 @@ class MonthExpression < TimeExpression
       from, to = expression.split('-').map(&:to_i)
       (from..to).to_a
     when /^(#{month_regex_str})$/i
-      [MONTHS[expression.upcase]]
+      month = MONTHS[expression.upcase]
+      raise ArgumentError, "Invalid month: #{expression}" if month.nil?
+      [month]
     when /^(#{month_regex_str})\-(#{month_regex_str})$/i
       from_month, to_month = expression.split('-')
       from_month_index = MONTHS[from_month]
