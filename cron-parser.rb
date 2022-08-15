@@ -1,22 +1,24 @@
 #!ruby
 
+require './lib/time_expressions/minute_expression'
+require './lib/time_expressions/hour_expression'
+require './lib/time_expressions/day_expression'
+require './lib/time_expressions/month_expression'
+require './lib/time_expressions/weekday_expression'
+
 args = ARGV
 
 expression = args[0].strip
 
 parts = expression.split(' ')
 
-minute_expression, hour_expression, day_expression, month_expression, weekday_expression, executable = parts
+minute_expression, hour_expression, day_expression, month_expression, weekday_expression, *executable = parts
 
-def clamp_array(array, min, max)
-  array.filter { |value| value >= min && value <= max }
-end
-
-minutes = []
-hours = []
-days = []
-months = []
-weekdays = []
+minutes = MinuteExpression.new(minute_expression).occurrences
+hours = HourExpression.new(hour_expression).occurrences
+days = DayExpression.new(day_expression).occurrences
+months = MonthExpression.new(month_expression).occurrences
+weekdays = WeekdayExpression.new(weekday_expression).occurrences
 
 def formatted_message(message, limit: 14)
   # If the given string is less than `limit` chars long, pad it, otherwise truncate it
