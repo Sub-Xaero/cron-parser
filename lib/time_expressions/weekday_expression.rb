@@ -32,9 +32,11 @@ class WeekdayExpression < TimeExpression
     when /^\d+-\d+$/
       from, to = expression.split('-').map(&:to_i)
       (from..to).to_a
-    when Regexp.new("^#{weekday_regex_str}$")
-      [DAYS[expression.strip.upcase]]
-    when Regexp.new("^#{weekday_regex_str}-#{weekday_regex_str}$")
+    when /^(#{weekday_regex_str})$/
+      day = DAYS[expression.strip.upcase]
+      raise ArgumentError, "Invalid weekday: #{expression}" if day.nil?
+      [day]
+    when /^(#{weekday_regex_str})-(#{weekday_regex_str})$/
       from_day, to_day = expression.split('-')
       from_day_index = DAYS[from_day]
       raise ArgumentError, "Invalid day: #{from_day}" if from_day_index.nil?
