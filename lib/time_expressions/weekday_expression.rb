@@ -25,7 +25,7 @@ class WeekdayExpression < TimeExpression
     when '*'  # Wildcard
       RANGE.to_a
     when /^\*\/\d+$/ # Interval
-      interval = expression.gsub(/\*\//, '').to_i
+      interval = expression.slice(2..).to_i
       raise ArgumentError, "Invalid interval: #{interval}" if interval <= 0
 
       RANGE.step(interval).to_a
