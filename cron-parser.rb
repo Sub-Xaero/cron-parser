@@ -30,7 +30,6 @@ end
 # @param field [String] The name of the field to output
 # @param values [Array] The values to output, as an array
 # @return [void]
-
 def field_output(field, values)
   puts "#{formatted_message(field)}#{[*values].join(" ")}"
 end
