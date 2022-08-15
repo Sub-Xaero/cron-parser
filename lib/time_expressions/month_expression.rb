@@ -38,9 +38,9 @@ class MonthExpression < TimeExpression
     when /^\d+-\d+$/
       from, to = expression.split('-').map(&:to_i)
       (from..to).to_a
-    when Regexp.new("^#{month_regex_str}$")
-      [MONTHS[expression.strip.upcase.slice(0, 3)]]
-    when Regexp.new("^#{month_regex_str}-#{month_regex_str}$")
+    when /^(#{month_regex_str})$/i
+      [MONTHS[expression.upcase]]
+    when /^(#{month_regex_str})\-(#{month_regex_str})$/i
       from_month, to_month = expression.split('-')
       from_month = from_month.strip.upcase.slice(0, 3)
       to_month = to_month.strip.upcase.slice(0, 3)
