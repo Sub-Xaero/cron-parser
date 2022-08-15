@@ -27,7 +27,13 @@ class TimeExpression
   end
 
   def clamp_array(array, min, max)
-    array.filter { |value| value >= min && value <= max }
+    while array.first && array.first < min
+      array.shift
+    end
+    while array.first && array.last > max
+      array.pop
+    end
+    array
   end
 
 end
