@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'mocha/minitest'
 require "lib/time_expressions/time_expression"
 
 class TimeExpressionTest < Minitest::Test
