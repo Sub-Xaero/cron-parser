@@ -42,8 +42,6 @@ class MonthExpression < TimeExpression
       [MONTHS[expression.upcase]]
     when /^(#{month_regex_str})\-(#{month_regex_str})$/i
       from_month, to_month = expression.split('-')
-      from_month = from_month.strip.upcase.slice(0, 3)
-      to_month = to_month.strip.upcase.slice(0, 3)
       from_month_index = MONTHS[from_month]
       raise ArgumentError, "Invalid month: #{from_month}" if from_month_index.nil?
 
