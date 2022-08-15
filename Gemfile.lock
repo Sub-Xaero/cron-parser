@@ -1,0 +1,18 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.16.2)
+    mocha (1.13.0)
+
+PLATFORMS
+  x86_64-linux
+
+DEPENDENCIES
+  minitest
+  mocha
+
+RUBY VERSION
+   ruby 2.7.6p219
+
+BUNDLED WITH
+   2.3.14
