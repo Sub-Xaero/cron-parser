@@ -55,6 +55,14 @@ class WeekdayExpressionTest < Minitest::Test
     )
   end
 
+  def test_can_handle_wraparound_weekday_range
+    expression = WeekdayExpression.new('THU-MON')
+    assert_equal(
+      [0, 1, 4, 5, 6],
+      expression.occurrences
+    )
+  end
+
   def test_can_handle_range_of_weekdays
     expression = WeekdayExpression.new('2-5')
     assert_equal(

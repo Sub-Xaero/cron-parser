@@ -41,7 +41,11 @@ class WeekdayExpression < TimeExpression
       to_day_index = DAYS[to_day]
       raise ArgumentError, "Invalid day: #{to_day}" if to_day_index.nil?
 
-      (from_day_index..to_day_index).to_a
+      if from_day_index > to_day_index
+        (from_day_index..RANGE.end).to_a + (RANGE.begin..to_day_index).to_a
+      else
+        (from_day_index..to_day_index).to_a
+      end
     else
       super
     end
