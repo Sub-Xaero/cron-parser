@@ -52,6 +52,14 @@ class DayExpressionTest < Minitest::Test
     )
   end
 
+  def test_can_handle_range_of_days_with_interval
+    expression = DayExpression.new('1-15/5')
+    assert_equal(
+      [1, 6, 11],
+      expression.occurrences
+    )
+  end
+
   def test_rejects_invalid_days
     expression = DayExpression.new('1,32')
     assert_equal(
